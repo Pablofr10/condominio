@@ -13,6 +13,8 @@ namespace Condominio.Repository.Maps
             base.Configure(builder);
 
             builder.Property(x => x.Url).HasColumnName("local").HasMaxLength(50).IsRequired();
+            
+            builder.HasOne(x => x.Usuario).WithOne(x => x.Imagem).HasForeignKey<Usuario>(x => x.IdImagem);
         }
     }
 }

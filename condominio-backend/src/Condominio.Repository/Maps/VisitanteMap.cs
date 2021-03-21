@@ -15,7 +15,24 @@ namespace Condominio.Repository.Maps
             builder.Property(x => x.Nome).HasColumnName("nome").HasMaxLength(100).IsRequired();
             builder.Property(x => x.Cpf).HasColumnName("cpf").HasMaxLength(11).IsRequired();
             builder.Property(x => x.Confirmado).HasColumnName("confirmado").IsRequired();
-            builder.Property(x => x.DataVisita).HasColumnName("data_visita").IsRequired();
+            
+            builder.HasMany(x => x.Usuarios)
+                .WithMany(x => x.Visitantes)
+                .UsingEntity<UsuarioVisitante>(
+                    x => x.HasOne(f => f.Usuario).WithMany().HasForeignKey(x => x.IdUsuario),
+                    x => x.HasOne(f => f.Visitante).WithMany().HasForeignKey(f => f.IdVisitante),
+                    x =>
+                    {
+                        x.ToTable("tb_usuario_visitante");
+
+                        x.HasKey(f => new {f.IdUsuario, f.IdVisitante});
+
+                        x.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+                        x.Property(x => x.DataVisita).HasColumnName("data_visita").IsRequired();
+                        x.Property(x => x.IdUsuario).HasColumnName("id_usuario").IsRequired();
+                        x.Property(x => x.IdVisitante).HasColumnName("id_visitante").IsRequired();
+                    }
+                );
         }
     }
 }

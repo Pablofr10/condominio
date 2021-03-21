@@ -4,14 +4,16 @@ using Condominio.Repository.Commom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Condominio.Repository.Migrations
 {
     [DbContext(typeof(CondominioDbContext))]
-    partial class CondominioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210321215232_AtualizandoBase")]
+    partial class AtualizandoBase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,13 +66,21 @@ namespace Condominio.Repository.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("local");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tb_imagem");
                 });
@@ -94,6 +104,9 @@ namespace Condominio.Repository.Migrations
                     b.Property<DateTime>("HoraInicial")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("hora_inicial");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Local")
                         .IsRequired()
@@ -145,9 +158,8 @@ namespace Condominio.Repository.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id_contato");
 
-                    b.Property<int>("IdImagem")
-                        .HasColumnType("integer")
-                        .HasColumnName("id_imagem");
+                    b.Property<int>("IdReserva")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -160,9 +172,6 @@ namespace Condominio.Repository.Migrations
                         .HasColumnName("numero_apartamento");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdImagem")
-                        .IsUnique();
 
                     b.ToTable("tb_usuario");
                 });
@@ -177,44 +186,11 @@ namespace Condominio.Repository.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id_usuario");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
                     b.HasKey("IdReserva", "IdUsuario");
 
                     b.HasIndex("IdUsuario");
 
                     b.ToTable("tb_usuario_reserva");
-                });
-
-            modelBuilder.Entity("Condominio.Domain.Entities.UsuarioVisitante", b =>
-                {
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("integer")
-                        .HasColumnName("id_usuario");
-
-                    b.Property<int>("IdVisitante")
-                        .HasColumnType("integer")
-                        .HasColumnName("id_visitante");
-
-                    b.Property<DateTime>("DataVisita")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("data_visita");
-
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.HasKey("IdUsuario", "IdVisitante");
-
-                    b.HasIndex("IdVisitante");
-
-                    b.ToTable("tb_usuario_visitante");
                 });
 
             modelBuilder.Entity("Condominio.Domain.Entities.Visitante", b =>
@@ -235,13 +211,26 @@ namespace Condominio.Repository.Migrations
                         .HasColumnType("character varying(11)")
                         .HasColumnName("cpf");
 
+                    b.Property<string>("DataVisita")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("data_visita");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("nome");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("tb_visitante");
                 });
@@ -257,15 +246,13 @@ namespace Condominio.Repository.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Condominio.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("Condominio.Domain.Entities.Imagem", b =>
                 {
-                    b.HasOne("Condominio.Domain.Entities.Imagem", "Imagem")
-                        .WithOne("Usuario")
-                        .HasForeignKey("Condominio.Domain.Entities.Usuario", "IdImagem")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("Condominio.Domain.Entities.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId");
 
-                    b.Navigation("Imagem");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Condominio.Domain.Entities.UsuarioReserva", b =>
@@ -287,27 +274,12 @@ namespace Condominio.Repository.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Condominio.Domain.Entities.UsuarioVisitante", b =>
+            modelBuilder.Entity("Condominio.Domain.Entities.Visitante", b =>
                 {
                     b.HasOne("Condominio.Domain.Entities.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("IdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsuarioId");
 
-                    b.HasOne("Condominio.Domain.Entities.Visitante", "Visitante")
-                        .WithMany()
-                        .HasForeignKey("IdVisitante")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
-
-                    b.Navigation("Visitante");
-                });
-
-            modelBuilder.Entity("Condominio.Domain.Entities.Imagem", b =>
-                {
                     b.Navigation("Usuario");
                 });
 

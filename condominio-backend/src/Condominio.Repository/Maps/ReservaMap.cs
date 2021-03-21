@@ -30,6 +30,7 @@ namespace Condominio.Repository.Maps
 
                         x.HasKey(f => new {f.IdReserva, f.IdUsuario});
 
+                        x.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
                         x.Property(x => x.IdReserva).HasColumnName("id_reserva").IsRequired();
                         x.Property(x => x.IdUsuario).HasColumnName("id_usuario").IsRequired();
                     }
