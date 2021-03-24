@@ -16,7 +16,7 @@ namespace Condominio.Repository.Maps
             builder.Property(x => x.Cpf).HasColumnName("cpf").HasMaxLength(11).IsRequired();
             builder.Property(x => x.Ativo).HasColumnName("ativo").IsRequired();
             builder.Property(x => x.NumeroApartamento).HasColumnName("numero_apartamento").IsRequired();
-            builder.Property(x => x.Complemento).HasColumnName("complementoReserva").IsRequired();
+            builder.Property(x => x.Complemento).HasColumnName("complemento").IsRequired();
             builder.Property(x => x.CriadoEm).HasColumnName("criado_em").IsRequired();
 
             builder.Property(x => x.IdContato).HasColumnName("id_contato").IsRequired();

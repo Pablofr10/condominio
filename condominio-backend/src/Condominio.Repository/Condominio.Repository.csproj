@@ -6,7 +6,6 @@
 
     <ItemGroup>
       <Folder Include="Migrations" />
-      <Folder Include="Repositories" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Condominio.Domain\Condominio.Domain.csproj" />
+      <ProjectReference Include="..\Condominio.Interface\Condominio.Interface.csproj" />
     </ItemGroup>
 
     <ItemGroup>

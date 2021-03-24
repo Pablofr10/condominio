@@ -4,14 +4,16 @@ using Condominio.Repository.Commom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Condominio.Repository.Migrations
 {
     [DbContext(typeof(CondominioDbContext))]
-    partial class CondominioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210324010330_corrigindoComplemento")]
+    partial class corrigindoComplemento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,9 @@ namespace Condominio.Repository.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("email");
 
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(12)
@@ -46,6 +51,9 @@ namespace Condominio.Repository.Migrations
                         .HasColumnName("telefone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdUsuario")
+                        .IsUnique();
 
                     b.ToTable("tb_contato");
                 });
@@ -155,9 +163,6 @@ namespace Condominio.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdContato")
-                        .IsUnique();
-
                     b.HasIndex("IdImagem")
                         .IsUnique();
 
@@ -243,21 +248,24 @@ namespace Condominio.Repository.Migrations
                     b.ToTable("tb_visitante");
                 });
 
-            modelBuilder.Entity("Condominio.Domain.Entities.Usuario", b =>
+            modelBuilder.Entity("Condominio.Domain.Entities.Contato", b =>
                 {
-                    b.HasOne("Condominio.Domain.Entities.Contato", "Contato")
-                        .WithOne("Usuario")
-                        .HasForeignKey("Condominio.Domain.Entities.Usuario", "IdContato")
+                    b.HasOne("Condominio.Domain.Entities.Usuario", "Usuario")
+                        .WithOne("Contato")
+                        .HasForeignKey("Condominio.Domain.Entities.Contato", "IdUsuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Condominio.Domain.Entities.Usuario", b =>
+                {
                     b.HasOne("Condominio.Domain.Entities.Imagem", "Imagem")
                         .WithOne("Usuario")
                         .HasForeignKey("Condominio.Domain.Entities.Usuario", "IdImagem")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contato");
 
                     b.Navigation("Imagem");
                 });
@@ -300,14 +308,14 @@ namespace Condominio.Repository.Migrations
                     b.Navigation("Visitante");
                 });
 
-            modelBuilder.Entity("Condominio.Domain.Entities.Contato", b =>
+            modelBuilder.Entity("Condominio.Domain.Entities.Imagem", b =>
                 {
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Condominio.Domain.Entities.Imagem", b =>
+            modelBuilder.Entity("Condominio.Domain.Entities.Usuario", b =>
                 {
-                    b.Navigation("Usuario");
+                    b.Navigation("Contato");
                 });
 #pragma warning restore 612, 618
         }
