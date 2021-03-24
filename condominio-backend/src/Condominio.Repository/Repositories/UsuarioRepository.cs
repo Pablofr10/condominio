@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Condominio.Domain.Dtos;
@@ -20,6 +22,7 @@ namespace Condominio.Repository.Repositories
         {
             var query = await _context.Usuarios.Select( x => new UsuarioDto
             {
+                Id = x.Id,
                 Nome = x.Nome,
                 NumeroApartamento = x.NumeroApartamento,
                 Ativo = x.Ativo,
@@ -27,6 +30,22 @@ namespace Condominio.Repository.Repositories
                 Complemento = x.Complemento
             }).ToListAsync();
 
+            return query;
+        }
+
+        public async Task<UsuarioDto> Get(int id)
+        {
+            var query = await _context.Usuarios.Where(x => x.Id == id)
+                .Select(x => new UsuarioDto
+                {
+                    Id = x.Id,
+                    Nome = x.Nome,
+                    NumeroApartamento = x.NumeroApartamento,
+                    Ativo = x.Ativo,
+                    Cpf = x.Cpf,
+                    Complemento = x.Complemento
+                }).FirstOrDefaultAsync();
+            
             return query;
         }
     }
