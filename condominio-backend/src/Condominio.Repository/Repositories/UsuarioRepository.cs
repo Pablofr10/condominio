@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Condominio.Domain.Dtos;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
+using AutoMapper;
 using Condominio.Domain.Entities;
 using Condominio.Interface.Repositories;
 using Condominio.Repository.Commom;
@@ -16,71 +17,42 @@ namespace Condominio.Repository.Repositories
     public class UsuarioRepository : IUsuarioRepository
     {
         private readonly CondominioDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UsuarioRepository(CondominioDbContext context)
+        public UsuarioRepository(CondominioDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public async Task<List<UsuarioResponse>> Get()
+        public async Task<IEnumerable<UsuarioResponse>> Get()
         {
-            var query = await _context.Usuarios.Select( x => new UsuarioResponse
-            {
-                Id = x.Id,
-                Nome = x.Nome,
-                NumeroApartamento = x.NumeroApartamento,
-                Ativo = x.Ativo,
-                Cpf = x.Cpf,
-                Complemento = x.Complemento,
-                Contato = new ContatoDto
-                {
-                    Email = x.Contato.Email,
-                    Telefone = x.Contato.Telefone,
-                    Celular = x.Contato.Celular
-                }
-            }).ToListAsync();
+            var query = await _context.Usuarios
+                .Include(u => u.Contato)
+                .Include(u => u.Imagem)
+                .ToListAsync();
 
-            return query;
+            var retornoUsuario = _mapper.Map<IEnumerable<UsuarioResponse>>(query);
+
+            return retornoUsuario;
         }
 
         public async Task<UsuarioResponse> Get(int id)
         {
-            var query = await _context.Usuarios.Where(x => x.Id == id)
-                .Select(x => new UsuarioResponse
-                {
-                    Id = x.Id,
-                    Nome = x.Nome,
-                    NumeroApartamento = x.NumeroApartamento,
-                    Ativo = x.Ativo,
-                    Cpf = x.Cpf,
-                    Complemento = x.Complemento,
-                    Contato = new ContatoDto
-                    {
-                        Email = x.Contato.Email,
-                        Telefone = x.Contato.Telefone,
-                        Celular = x.Contato.Celular
-                    }
-                }).FirstOrDefaultAsync();
+            var query = await _context.Usuarios
+                .Include(u => u.Contato)
+                .Include(u => u.Imagem).FirstOrDefaultAsync();
             
-            return query;
+            var usuarioRetorno = _mapper.Map<UsuarioResponse>(query);
+            
+            return usuarioRetorno;
         }
 
-        public async Task<bool> PostUsuario(UsuarioDto usuario)
+        public async Task<bool> PostUsuario(UsuarioRequest usuario)
         {
             try
             {
-                var usuarioGravar = new Usuario
-                {
-                    Nome = usuario.Nome,
-                    NumeroApartamento = usuario.NumeroApartamento,
-                    Ativo = true,
-                    IdContato = 2,
-                    Cpf = usuario.Cpf,
-                    CriadoEm = DateTime.Now,
-                    Complemento = usuario.Complemento,
-                    IdImagem = 2,
-                };
-                
-                
+                var usuarioGravar = _mapper.Map<Usuario>(usuario);
+
                 await _context.Usuarios.AddAsync(usuarioGravar);
                 await _context.SaveChangesAsync();
 
@@ -91,6 +63,38 @@ namespace Condominio.Repository.Repositories
             {
                 throw new ArgumentException("Erro ao gravar usuário" + e.Message);
             }
+        }
+
+        public async Task<bool> PutUsuario(int id, UsuarioRequest usuario)
+        {
+            try
+            {
+                if (id < 0)
+                {
+                    throw new ArgumentException("Usuário não informado");
+                }
+                
+                var usuarioBanco = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+                
+                if (usuarioBanco == null)
+                {
+                    throw new ArgumentException("Usuário não existe no banco de dados.");
+                }
+                
+                var usuarioGravar = _mapper.Map(usuario, usuarioBanco);
+
+                _context.Update(usuarioGravar);
+                await _context.SaveChangesAsync();
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
     }
 }
