@@ -38,24 +38,13 @@ namespace Condominio.Repository.Repositories
 
         public async Task<UsuarioResponse> Get(int id)
         {
-            var query = await _context.Usuarios.Where(x => x.Id == id)
-                .Select(x => new UsuarioResponse
-                {
-                    Id = x.Id,
-                    Nome = x.Nome,
-                    NumeroApartamento = x.NumeroApartamento,
-                    Ativo = x.Ativo,
-                    Cpf = x.Cpf,
-                    Complemento = x.Complemento,
-                    Contato = new ContatoDto
-                    {
-                        Email = x.Contato.Email,
-                        Telefone = x.Contato.Telefone,
-                        Celular = x.Contato.Celular
-                    }
-                }).FirstOrDefaultAsync();
+            var query = await _context.Usuarios
+                .Include(u => u.Contato)
+                .Include(u => u.Imagem).FirstOrDefaultAsync();
             
-            return query;
+            var usuarioRetorno = _mapper.Map<UsuarioResponse>(query);
+            
+            return usuarioRetorno;
         }
 
         public async Task<bool> PostUsuario(UsuarioRequest usuario)
@@ -74,6 +63,38 @@ namespace Condominio.Repository.Repositories
             {
                 throw new ArgumentException("Erro ao gravar usuário" + e.Message);
             }
+        }
+
+        public async Task<bool> PutUsuario(int id, UsuarioRequest usuario)
+        {
+            try
+            {
+                if (id < 0)
+                {
+                    throw new ArgumentException("Usuário não informado");
+                }
+                
+                var usuarioBanco = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+                
+                if (usuarioBanco == null)
+                {
+                    throw new ArgumentException("Usuário não existe no banco de dados.");
+                }
+                
+                var usuarioGravar = _mapper.Map(usuario, usuarioBanco);
+
+                _context.Update(usuarioGravar);
+                await _context.SaveChangesAsync();
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
     }
 }
