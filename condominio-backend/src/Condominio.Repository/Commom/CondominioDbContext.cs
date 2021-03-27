@@ -1,11 +1,12 @@
 
 
 using Condominio.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Condominio.Repository.Commom
 {
-    public class CondominioDbContext : DbContext
+    public class CondominioDbContext : IdentityDbContext
     {
         public virtual  DbSet<Usuario> Usuarios { get; set; }
         public virtual  DbSet<Imagem> Imagens { get; set; }
