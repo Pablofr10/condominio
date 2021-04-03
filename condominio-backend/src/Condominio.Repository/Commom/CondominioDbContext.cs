@@ -1,6 +1,6 @@
 
 
-using Condominio.Domain.Dtos.Identity;
+using Condominio.Domain.Dtos;
 using Condominio.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,13 +9,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Condominio.Repository.Commom
 {
     public sealed class CondominioDbContext : IdentityDbContext<User, Role, int,
-                                                        IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, 
-                                                        IdentityRoleClaim<int>, IdentityUserToken<int>>
+        IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, 
+        IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Imagem> Imagens { get; set; }
         public DbSet<Contato> Contatos { get; set; }
-        public DbSet<UsuarioReserva> UsuarioReservas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Visitante> Visitantes { get; set; }
 

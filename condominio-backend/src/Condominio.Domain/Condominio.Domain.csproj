@@ -5,9 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos" />
     <Folder Include="Enums" />
     <Folder Include="Interfaces" />
+    <Folder Include="Enums\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>

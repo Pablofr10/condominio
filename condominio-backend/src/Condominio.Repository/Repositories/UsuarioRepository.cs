@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Condominio.Domain.Dtos;
-using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using AutoMapper;
+using Condominio.Domain.Dtos.UsuarioRequest;
 using Condominio.Domain.Entities;
-using Condominio.Interface.Repositories;
+using Condominio.Interface.Repository;
 using Condominio.Repository.Commom;
 using Microsoft.EntityFrameworkCore;
 
