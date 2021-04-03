@@ -16,7 +16,7 @@ namespace Condominio.Repository.Maps
             builder.Property(x => x.Cpf).HasColumnName("cpf").HasMaxLength(11).IsRequired();
             builder.Property(x => x.Confirmado).HasColumnName("confirmado").IsRequired();
             
-            builder.HasMany(x => x.Usuarios)
+            builder.HasMany(x => x.Usuario)
                 .WithMany(x => x.Visitantes)
                 .UsingEntity<UsuarioVisitante>(
                     x => x.HasOne(f => f.Usuario).WithMany().HasForeignKey(x => x.IdUsuario),
@@ -35,4 +35,5 @@ namespace Condominio.Repository.Maps
                 );
         }
     }
+
 }

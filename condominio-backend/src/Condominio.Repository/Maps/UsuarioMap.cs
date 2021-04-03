@@ -20,7 +20,6 @@ namespace Condominio.Repository.Maps
             builder.Property(x => x.CriadoEm).HasColumnName("criado_em").IsRequired();
 
             builder.Property(x => x.IdContato).HasColumnName("id_contato").IsRequired();
-            builder.Property(x => x.IdImagem).HasColumnName("id_imagem").IsRequired();
         }
     }
 }
