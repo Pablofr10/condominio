@@ -4,14 +4,16 @@ using Condominio.Repository.Commom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Condominio.Repository.Migrations
 {
     [DbContext(typeof(CondominioDbContext))]
-    partial class CondominioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210403233526_corrigindoImagem")]
+    partial class corrigindoImagem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,6 +235,7 @@ namespace Condominio.Repository.Migrations
                         .HasColumnName("ativo");
 
                     b.Property<string>("Complemento")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("complemento");
 
