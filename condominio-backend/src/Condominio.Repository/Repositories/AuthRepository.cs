@@ -62,10 +62,10 @@ namespace Condominio.Repository.Repositories
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
 
-                if (!result.Succeeded)
+                if (result.Succeeded)
                 {
                     var userBanco =
-                        await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == userLogin.UserName);
+                        await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == userLogin.UserName.ToUpper());
 
                     var userRetornado = _mapper.Map<UserLoginResponse>(userBanco);
 

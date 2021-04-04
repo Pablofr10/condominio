@@ -40,18 +40,18 @@ namespace Condominio.API.Controllers
             return BadRequest("Usuário não cadastrado");
         }
         
-        [HttpPost("GetUser")]
+        [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginRequest userLogin)
         {
-            var usuario = await GetService<IAuthRepository>().Login(userLogin);
+            var user = await GetService<IAuthRepository>().Login(userLogin);
             
-            if (usuario != null)
+            if (user != null)
             {
-                var token = Genera
-                return Created("GetUser", usuario);
+                return Ok(user);
             }
 
-            return BadRequest("Usuário não cadastrado");
+            return BadRequest("Erro ao relizar login");
         }
     }
 }
