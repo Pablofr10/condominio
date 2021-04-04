@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Request;
-using Condominio.Domain.Dtos.UsuarioRequest;
 using Condominio.Interface.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Condominio.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)]
     public class UsuarioController : BaseController
     {
         public UsuarioController(IServiceProvider serviceProvider) : base(serviceProvider)

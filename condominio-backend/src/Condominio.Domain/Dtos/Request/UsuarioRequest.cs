@@ -2,7 +2,7 @@
 
 namespace Condominio.Domain.Dtos.Request
 {
-    public class UsuarioRequest
+    public class UsuarioRequest : BaseDto
     {
         public string Nome { get; set; }
         public string Cpf { get; set; }

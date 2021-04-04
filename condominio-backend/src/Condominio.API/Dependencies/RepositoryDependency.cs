@@ -9,12 +9,13 @@ namespace Condominio.API.Dependencies
     {
         public static void Register(IServiceCollection serviceProvider)
         {
-            RepositoryDependece(serviceProvider);
+            RepositoryDependecy(serviceProvider);
         }
 
-        private static void RepositoryDependece(IServiceCollection serviceProvider)
+        private static void RepositoryDependecy(IServiceCollection serviceProvider)
         {
             serviceProvider.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            serviceProvider.AddScoped<IAuthRepository, AuthRepository>();
         }
     }
 }
