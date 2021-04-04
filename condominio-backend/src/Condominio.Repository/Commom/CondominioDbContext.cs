@@ -1,6 +1,4 @@
-
-
-using Condominio.Domain.Dtos;
+using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

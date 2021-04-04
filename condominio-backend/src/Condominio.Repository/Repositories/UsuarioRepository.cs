@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Response;
 using AutoMapper;
+using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.UsuarioRequest;
 using Condominio.Domain.Entities;
 using Condominio.Interface.Repository;
@@ -43,25 +44,28 @@ namespace Condominio.Repository.Repositories
             
             return usuarioRetorno;
         }
-
+        
         public async Task<bool> PostUsuario(UsuarioRequest usuario)
         {
             try
             {
                 var usuarioGravar = _mapper.Map<Usuario>(usuario);
-
+                
+                usuarioGravar.CriadoEm = DateTime.Now;
+                usuarioGravar.Ativo = true;
+        
                 await _context.Usuarios.AddAsync(usuarioGravar);
                 await _context.SaveChangesAsync();
-
+        
                 return true;
-
+        
             }
             catch (Exception e)
             {
                 throw new ArgumentException("Erro ao gravar usuário" + e.Message);
             }
         }
-
+        
         public async Task<bool> PutUsuario(int id, UsuarioRequest usuario)
         {
             try
@@ -79,19 +83,18 @@ namespace Condominio.Repository.Repositories
                 }
                 
                 var usuarioGravar = _mapper.Map(usuario, usuarioBanco);
-
+        
                 _context.Update(usuarioGravar);
                 await _context.SaveChangesAsync();
-
+        
                 return true;
-
+        
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw new ArgumentException("Erro ao editar usuário " + e.Message);;
             }
-
+        
         }
     }
 }
