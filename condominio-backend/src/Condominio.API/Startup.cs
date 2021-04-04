@@ -1,16 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data.Common;
+using Condominio.API.Dependencies;
+using Condominio.Repository.Commom;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 
 namespace Condominio.API
 {
@@ -22,11 +20,22 @@ namespace Condominio.API
         }
 
         public IConfiguration Configuration { get; }
+        public DbConnection DdConnection => new NpgsqlConnection(Configuration.GetConnectionString("App"));
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddDbContext<CondominioDbContext>(options =>
+            {
+                options.UseNpgsql(
+                    DdConnection,
+                    assembly => assembly.MigrationsAssembly(typeof(CondominioDbContext).Assembly.FullName));
+            });
+            services.AddAutoMapper(typeof(Startup));
+            RepositoryDependence.Register(services);
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Condominio.API", Version = "v1"});

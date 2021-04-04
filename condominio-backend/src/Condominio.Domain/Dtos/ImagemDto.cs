@@ -2,6 +2,6 @@
 {
     public class ImagemDto
     {
-        
+        public string Url { get; set; }
     }
 }
