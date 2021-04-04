@@ -1,6 +1,6 @@
 namespace Condominio.Domain.Entities
 {
-    public class Base
+    public class BaseDomain
     {
         public int Id { get; set; }
     }

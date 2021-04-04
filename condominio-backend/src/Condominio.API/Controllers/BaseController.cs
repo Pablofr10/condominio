@@ -1,7 +1,20 @@
-﻿namespace Condominio.API.Controllers
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Condominio.API.Controllers
 {
-    public class BaseController
+    public class BaseController : Controller
     {
-        
+        private readonly IServiceProvider _serviceProvider;
+        public BaseController(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        protected T GetService<T>()
+        {
+            return _serviceProvider.GetService<T>();
+        }
     }
 }

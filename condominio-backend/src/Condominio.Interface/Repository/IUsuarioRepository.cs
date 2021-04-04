@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using Condominio.Domain.Dtos.UsuarioRequest;
 

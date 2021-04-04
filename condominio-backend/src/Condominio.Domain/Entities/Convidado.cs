@@ -1,6 +1,6 @@
 namespace Condominio.Domain.Entities
 {
-    public class Convidado : Base
+    public class Convidado : BaseDomain
     {
         public string Nome { get; set; }
         public string Cpf { get; set; }

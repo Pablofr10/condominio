@@ -5,6 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.2.21154.2" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0-preview2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
@@ -12,7 +14,11 @@
 
     <ItemGroup>
       <Folder Include="Dependencies\" />
-      <Folder Include="Extensions\" />
+      <Folder Include="Helpers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Condominio.Repository\Condominio.Repository.csproj" />
     </ItemGroup>
 
 </Project>

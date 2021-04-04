@@ -7,11 +7,10 @@ namespace Condominio.Domain.Dtos.Response
     {
         public string Nome { get; set; }
         public string Cpf { get; set; }
-        public DateTime CriadoEm { get; set; }
         public bool Ativo { get; set; }
-        public int IdEndereco { get; set; }
-        public Endereco Endereco { get; set; }
-        public int IdContato { get; set; }
-        public Contato Contato { get; set; }
+        public int NumeroApartamento { get; set; }
+        public string Complemento { get; set; }
+        public ContatoDto Contato { get; set; }
+        public string UrlImagem { get; set; }
     }
 }
