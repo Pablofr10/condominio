@@ -3,7 +3,7 @@ using Condominio.Domain.Entities;
 
 namespace Condominio.Domain.Dtos.Response
 {
-    public class UsuarioResponse
+    public class UsuarioResponse : BaseDto
     {
         public string Nome { get; set; }
         public string Cpf { get; set; }

@@ -21,6 +21,7 @@ namespace Condominio.API.Helpers
             CreateMap<Imagem, ImagemDto>().ReverseMap();
             CreateMap<Contato, ContatoDto>().ReverseMap();
             CreateMap<User, UserRequest>().ReverseMap();
+            CreateMap<User, UserResponse>().ReverseMap();
             CreateMap<User, UserLoginResponse>()
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
         }

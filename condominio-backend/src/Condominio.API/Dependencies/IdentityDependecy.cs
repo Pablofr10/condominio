@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿
+
+using System.Text;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Repository.Commom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,14 +14,12 @@ namespace Condominio.API.Dependencies
     public class IdentityDependecy
     {
         
-        public static void Register(IServiceCollection serviceProvider)
+        public static void Register(IServiceCollection serviceProvider, string token)
         {
-            RepositoryDependece(serviceProvider);
+            RepositoryDependece(serviceProvider, token);
         }
 
-        public static IConfiguration Configuration { get; set; }
-
-        private static void RepositoryDependece(IServiceCollection serviceProvider)
+        private static void RepositoryDependece(IServiceCollection serviceProvider, string token)
         {
             IdentityBuilder builder = serviceProvider.AddIdentityCore<User>(options =>
             {
@@ -42,7 +42,7 @@ namespace Condominio.API.Dependencies
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(token)),
                         ValidateAudience = false,
                         ValidateIssuer = false
                     };

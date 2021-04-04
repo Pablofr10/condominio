@@ -44,14 +44,14 @@ namespace Condominio.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginRequest userLogin)
         {
-            var user = await GetService<IAuthRepository>().Login(userLogin);
+            UserLoginResponse user = await GetService<IAuthRepository>().Login(userLogin);
             
-            if (user != null)
+            if (user == null)
             {
-                return Ok(user);
+                return BadRequest("Erro ao relizar login");
             }
 
-            return BadRequest("Erro ao relizar login");
+            return Ok(user);
         }
     }
 }

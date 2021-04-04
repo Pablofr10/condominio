@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -105,7 +106,7 @@ namespace Condominio.Repository.Repositories
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMonths(6),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = credentials
             };
 
