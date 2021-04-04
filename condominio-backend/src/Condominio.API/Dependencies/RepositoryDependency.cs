@@ -15,6 +15,7 @@ namespace Condominio.API.Dependencies
         private static void RepositoryDependecy(IServiceCollection serviceProvider)
         {
             serviceProvider.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            serviceProvider.AddScoped<IAuthRepository, AuthRepository>();
         }
     }
 }

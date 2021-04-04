@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using Condominio.Domain.Dtos;
+using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using Condominio.Domain.Entities;
@@ -19,6 +20,8 @@ namespace Condominio.API.Helpers
             CreateMap<UsuarioRequest, Usuario>().ReverseMap();
             CreateMap<Imagem, ImagemDto>().ReverseMap();
             CreateMap<Contato, ContatoDto>().ReverseMap();
+            CreateMap<User, UserRequest>().ReverseMap();
+            CreateMap<User, UserResponse>().ReverseMap();
         }
     }
 }

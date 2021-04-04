@@ -11,14 +11,13 @@ namespace Condominio.API.Dependencies
 {
     public class IdentityDependecy
     {
+        
         public static void Register(IServiceCollection serviceProvider)
         {
             RepositoryDependece(serviceProvider);
         }
 
         public static IConfiguration Configuration { get; set; }
-
-        static readonly string chave = Configuration.GetSection("AppSettings:Token").Value;
 
         private static void RepositoryDependece(IServiceCollection serviceProvider)
         {
@@ -43,7 +42,7 @@ namespace Condominio.API.Dependencies
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(chave)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
                         ValidateAudience = false,
                         ValidateIssuer = false
                     };
