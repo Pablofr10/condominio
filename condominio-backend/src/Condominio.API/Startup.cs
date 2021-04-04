@@ -31,11 +31,11 @@ namespace Condominio.API
                     DdConnection,
                     assembly => assembly.MigrationsAssembly(typeof(CondominioDbContext).Assembly.FullName));
             });
-            services.AddAutoMapper(typeof(Startup));
-            RepositoryDependence.Register(services);
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );;
+            services.AddAutoMapper(typeof(Startup));
+            RepositoryDependence.Register(services);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Condominio.API", Version = "v1"});

@@ -1,5 +1,5 @@
 ﻿
-using System;
+
 using AutoMapper;
 using Condominio.Domain.Dtos;
 using Condominio.Domain.Dtos.Request;
@@ -14,7 +14,7 @@ namespace Condominio.API.Helpers
         {
             CreateMap<Usuario, UsuarioResponse>().ForMember(
                 dest => dest.UrlImagem, opt => 
-                    opt.Condition( (src, dest, srcMember) => srcMember != null));
+                    opt.MapFrom(src => src.Imagem.Url));
             CreateMap<Contato, ContatoDto>().ReverseMap();
             CreateMap<UsuarioRequest, Usuario>().ReverseMap();
             CreateMap<Imagem, ImagemDto>().ReverseMap();
