@@ -1,8 +1,12 @@
 using System.Data.Common;
 using Condominio.API.Dependencies;
+using Condominio.Domain.Dtos.Identity;
 using Condominio.Repository.Commom;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,9 +35,16 @@ namespace Condominio.API
                     DdConnection,
                     assembly => assembly.MigrationsAssembly(typeof(CondominioDbContext).Assembly.FullName));
             });
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );;
+
+            IdentityDependecy.Register(services);
+
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy)); 
+            }).AddNewtonsoftJson(options =>
+                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddAutoMapper(typeof(Startup));
             RepositoryDependence.Register(services);
             services.AddSwaggerGen(c =>
