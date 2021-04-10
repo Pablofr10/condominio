@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { Home, Login, Usuarios, Visitantes, Logistica, Manutencao, Informacoes } from './views';
 
 function lazyLoad (view) {
     return () => import(`./views/${view}.vue`)
