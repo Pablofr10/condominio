@@ -1,5 +1,5 @@
 <template>
-  <component :is="'default-layout'">
+  <component :is="layout">
     <router-view />
   </component>
 </template>
@@ -12,10 +12,8 @@ const defaultLayout = "default";
 
 const { currentRoute } = useRouter();
 
-console.log(currentRoute.value.meta.layout);
-
 const layout = computed(
-  () => `${route.currentRoute.value.meta.layout || defaultLayout}-layout`
+  () => `${currentRoute.value.meta.layout || defaultLayout}-layout`
 );
 </script>
 
