@@ -12,12 +12,13 @@
                   for="user"
                   class="block mb-2 text-sm font-medium text-gray-600"
                 >
-                  User
+                  Usuário
                 </label>
 
                 <input
                   type="text"
-                  name="text"
+                  name="user"
+                  v-model="loginUsuario.usuario"
                   class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                 />
               </div>
@@ -32,12 +33,15 @@
                 <input
                   type="password"
                   name="senha"
+                  v-model="loginUsuario.senha"
                   class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                 />
               </div>
 
               <button
                 class="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                type="submit"
+                @click.prevent="login()"
               >
                 Entrar
               </button>
@@ -47,9 +51,9 @@
           <div
             class="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100"
           >
-            <a href="#" class="font-medium text-indigo-500"
-              >Criar novo cadastro</a
-            >
+            <button href="#" class="font-medium text-indigo-500">
+              Criar novo cadastro {{ loginUsuario.senha }}
+            </button>
 
             <a href="#" class="text-gray-600">Esqueci a senha?</a>
           </div>
@@ -59,4 +63,14 @@
   </div>
 </template>
 <script setup>
+import { reactive } from "vue";
+
+const loginUsuario = reactive({
+  usuario: "",
+  senha: "",
+});
+
+const login = () => {
+  alert("teste");
+};
 </script>

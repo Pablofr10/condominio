@@ -18,8 +18,8 @@
             class="rounded-lg md:hidden rounded-lg focus:outline-none focus:shadow-outline"
             @click="open = !open"
           >
-            <font-awesome-icon class="text-3xl" v-if="!open" icon="bars" />
-            <font-awesome-icon class="text-3xl" v-if="open" icon="times" />
+            <v-icon class="text-3xl" v-if="!open" icon="bars" />
+            <v-icon class="text-3xl" v-if="open" icon="times" />
           </button>
         </div>
         <SideBar />

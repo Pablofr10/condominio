@@ -15,7 +15,7 @@ const app = createApp(App);
 
 app.component('default-layout', DefaultLayout);
 app.component('empty-layout', EmptyLayout);
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.component("v-icon", FontAwesomeIcon);
 
 app.use(router);
 app.mount("#app");
