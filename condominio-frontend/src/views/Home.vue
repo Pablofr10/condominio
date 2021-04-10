@@ -1,18 +1,38 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="body">
+    <h1>{{ msg }}</h1>
+
+    <p>
+      <a href="https://vitejs.dev/guide/features.html" target="_blank"
+        >Vite Documentation</a
+      >
+
+      <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
+    </p>
+
+    <button @click="state.count++">count is: {{ state.count }}</button>
+    <p>
+      Edit
+      <code>components/HelloWorld.vue</code> to test hot module replacement.
+    </p>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+<script setup>
+import { defineProps, reactive } from "vue";
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
-}
+defineProps({
+  msg: String,
+});
+
+const state = reactive({ count: 0 });
 </script>
+
+<style scoped>
+a {
+  color: #42b983;
+}
+.body {
+  height: 1500px;
+}
+</style>

@@ -1,10 +1,23 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <component :is="'default-layout'">
+    <router-view />
+  </component>
 </template>
+
+<script setup>
+import { defineComponent, ref, computed } from "vue";
+import { useRouter } from "vue-router";
+
+const defaultLayout = "default";
+
+const { currentRoute } = useRouter();
+
+console.log(currentRoute.value.meta.layout);
+
+const layout = computed(
+  () => `${route.currentRoute.value.meta.layout || defaultLayout}-layout`
+);
+</script>
 
 <style>
 #app {
@@ -13,18 +26,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
