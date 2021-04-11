@@ -22,7 +22,7 @@
             <v-icon class="text-3xl" v-if="open" icon="times" />
           </button>
         </div>
-        <SideBar />
+        <SideBar :class="{ hidden: !open }" class="md:block" />
       </div>
       <div class="w-full mt-5 px-3 overflow-auto">
         <slot></slot>

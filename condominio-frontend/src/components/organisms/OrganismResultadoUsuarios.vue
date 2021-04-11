@@ -9,6 +9,6 @@ import {MoleculeTableUsuarios} from '../molecules';
 
 </script>
 
-<style scoped>
+<style setup>
 
 </style>
