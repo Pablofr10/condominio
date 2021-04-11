@@ -76,5 +76,5 @@
 import { AtomTable } from "../atoms";
 </script>
 
-<style scoped>
+<style setup>
 </style>

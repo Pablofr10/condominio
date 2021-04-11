@@ -5,7 +5,7 @@ const rotas = [
     { menuName: "Logistica", name: "logistica", rota: "/logistica", icon: "dolly" },
     { menuName: "Manutenção", name: "manutencao", rota: "/manutencao", icon: "tools" },
     { menuName: "Informações", name: "informações", rota: "/informacoes", icon: "info" },
-    { menuName: "Sair", name: "sair", rota: "/sair", icon: "sign-out-alt" },
+    { menuName: "Sair", name: "login", rota: "/", icon: "sign-out-alt" },
 ];
 
 export default rotas;

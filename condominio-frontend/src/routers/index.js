@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 function lazyLoad (view) {
-    return () => import(`./pages/${view}.vue`)
+    return () => import(`../pages/${view}.vue`)
 }
 
 const routes = [
