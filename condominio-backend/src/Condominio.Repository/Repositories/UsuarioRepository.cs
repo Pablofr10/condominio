@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Response;
 using AutoMapper;
 using Condominio.Domain.Dtos.Request;
-using Condominio.Domain.Dtos.UsuarioRequest;
 using Condominio.Domain.Entities;
 using Condominio.Interface.Repository;
 using Condominio.Repository.Commom;

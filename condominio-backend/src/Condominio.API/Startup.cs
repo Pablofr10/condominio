@@ -1,8 +1,11 @@
 using System;
 using System.Data.Common;
+using System.IO;
 using System.Text;
 using Condominio.API.Dependencies;
+using Condominio.API.Helpers;
 using Condominio.Domain.Dtos.Identity;
+using Condominio.Interface.Repository;
 using Condominio.Repository.Commom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
 using Npgsql;
 
 namespace Condominio.API
@@ -24,6 +28,7 @@ namespace Condominio.API
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -43,13 +48,17 @@ namespace Condominio.API
 
             IdentityDependecy.Register(services, TokenChave);
 
+            RepositoryDependence.Register(services);
+
             services.AddControllers(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy)); 
             }).AddNewtonsoftJson(options =>
                  options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            RepositoryDependence.Register(services);
+            
+            services.AddCors();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
@@ -83,7 +92,7 @@ namespace Condominio.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         {
             if (env.IsDevelopment())
             {
@@ -91,10 +100,20 @@ namespace Condominio.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Condominio.API v1"));
             }
+            
+            app.ConfigureExceptionMiddleware();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder => {
+                builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origen => true)
+                .AllowCredentials();
+            });
 
             app.UseAuthorization();
 

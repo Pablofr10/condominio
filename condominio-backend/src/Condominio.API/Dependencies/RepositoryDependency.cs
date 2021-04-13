@@ -1,4 +1,5 @@
 ﻿using System;
+using Condominio.API.Helpers;
 using Condominio.Interface.Repository;
 using Condominio.Repository.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ namespace Condominio.API.Dependencies
         {
             serviceProvider.AddScoped<IUsuarioRepository, UsuarioRepository>();
             serviceProvider.AddScoped<IAuthRepository, AuthRepository>();
+            serviceProvider.AddSingleton<ILoggerManager, LoggerManager>();
         }
     }
 }
