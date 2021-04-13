@@ -1,5 +1,5 @@
 <template>
-  <form class="mt-4" @submit.prevent="login">
+  <form class="mt-4" @submit.prevent="login()">
     <label class="block">
       <span class="text-gray-700 text-sm">Usuário</span>
       <input
@@ -39,7 +39,6 @@
       <button
         type="submit"
         class="py-2 px-4 text-center bg-indigo-600 rounded-md w-full text-white text-sm hover:bg-indigo-500"
-        @click.prevent="entrar()"
       >
         Entrar
       </button>
@@ -48,7 +47,7 @@
 </template>
 
 <script>
-import services from '../services'
+import services from "../services";
 
 export default {
   props: {
@@ -57,20 +56,21 @@ export default {
   },
 
   setup(props) {
-    
-    async function entrar() {
-        try {
-            const data = await services.post('auth/login', {userName: props.usuario, password: props.senha });
-            console.log(data);
-        } catch (error) {
-            console.log(error.response.data)
-        }
-        
+    async function login() {
+      try {
+        const data = await services.post("auth/login", {
+          userName: props.usuario,
+          password: props.senha,
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
     }
 
-    return{
-        entrar
-    }
+    return {
+      login,
+    };
   },
 };
 </script>
