@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Response;
+using Condominio.Domain.Exceptions;
 using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Http;
 
@@ -24,10 +25,10 @@ namespace Condominio.API.Helpers
             {
                 await _next(httpContext);
             }
-            catch (Exception ex)
+            catch (LoginException ex)
             {
-                _logger.LogError($"Ocorreu um erro: {ex}");
-                await HandleExeptionAsync(httpContext);
+                _logger.LogError($"Erro ao realizar login: {ex}");
+                await HandleLoginExeptionAsync(httpContext, ex);
             }
         }
 
@@ -40,6 +41,18 @@ namespace Condominio.API.Helpers
             {
                 StatusCode = context.Response.StatusCode,
                 Message = "Erro ao cadastrar usuário."
+            }.ToString());
+        }
+        
+        private Task HandleLoginExeptionAsync(HttpContext context, LoginException loginException)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+
+            return context.Response.WriteAsync(new ErrosResponse
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = loginException.Message
             }.ToString());
         }
     }

@@ -1,4 +1,5 @@
 <template>
+  <span class="text-red-500 text-xs">{{mensagemErro}}</span>
   <form class="mt-4" @submit.prevent="login()">
     <label class="block">
       <span class="text-gray-700 text-sm">Usuário</span>
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import services from "../services";
 
 export default {
@@ -56,20 +58,24 @@ export default {
   },
 
   setup(props) {
+
+      const mensagemErro = ref('');
+
+
+
     async function login() {
       try {
-        const data = await services.post("auth/login", {
-          userName: props.usuario,
-          password: props.senha,
-        });
+        const data = await services.post("auth/login", {userName: props.usuario, password: props.senha});
         console.log(data);
       } catch (error) {
-        console.log(error.response.data);
+        this.mensagemErro = error.response.data.Message;
+        console.log(error.response);
       }
     }
 
     return {
       login,
+      mensagemErro
     };
   },
 };
