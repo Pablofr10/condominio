@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,13 +8,12 @@ using AutoMapper;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
+using Condominio.Domain.Exceptions;
 using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
 namespace Condominio.Repository.Repositories
 {
     public class AuthRepository : IAuthRepository
@@ -24,7 +22,7 @@ namespace Condominio.Repository.Repositories
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
-        private readonly ILoggerManager _logger; 
+        private readonly ILoggerManager _logger;
 
         public AuthRepository(IConfiguration configuration, UserManager<User> userManager,
             SignInManager<User> signInManager, IMapper mapper, ILoggerManager logger)
@@ -47,7 +45,7 @@ namespace Condominio.Repository.Repositories
 
                 if (!result.Succeeded)
                 {
-                    throw new ArgumentException($"Usuário não cadastrado {result.Errors}");
+                    throw new LoginException($"Usuário não cadastrado {result.Errors}");
                 }
 
                 return userToReturn;
@@ -60,37 +58,33 @@ namespace Condominio.Repository.Repositories
 
         public async Task<UserLoginResponse> Login(UserLoginRequest userLogin)
         {
-            try
+            _logger.LogInfo("Verificando usuário");
+            var user = await _userManager.FindByNameAsync(userLogin.UserName);
+
+            if (user == null)
             {
-                _logger.LogInfo("Verificando usuário");
-                var user = await _userManager.FindByNameAsync(userLogin.UserName);
-
-                if (user == null)
-                {
-                    _logger.LogError("Usuário não existe");
-                    throw new ArgumentException("Usuário não existe");
-                }
-
-                var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
-
-                if (result.Succeeded)
-                {
-                    var userBanco =
-                        await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == userLogin.UserName.ToUpper());
-
-                    var userRetornado = _mapper.Map<UserLoginResponse>(userBanco);
-
-                    userRetornado.Token = GenerateJwToken(userBanco).Result;
-
-                    return userRetornado;
-                }
-
-                throw new UnauthorizedAccessException("Login não autorizado");
+                _logger.LogError("Usuário não existe");
+                throw new LoginException("Usuário não existe");
             }
-            catch (Exception ex)
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
+
+            if (result.Succeeded)
             {
-                throw new ArgumentException($"Erro ao logar com o usuário {ex.Message}");
+                var userBanco =
+                    await _userManager.Users.FirstOrDefaultAsync(u =>
+                        u.NormalizedUserName == userLogin.UserName.ToUpper());
+
+                var userRetornado = _mapper.Map<UserLoginResponse>(userBanco);
+
+                userRetornado.Token = GenerateJwToken(userBanco).Result;
+                _logger.LogInfo("Usuário logado com sucesso!");
+
+                return userRetornado;
             }
+            
+            _logger.LogError("Erro ao realizar o login");
+            throw new LoginException("Login não autorizado");
         }
 
         private async Task<string> GenerateJwToken(User user)
@@ -98,7 +92,7 @@ namespace Condominio.Repository.Repositories
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName)  
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -107,7 +101,7 @@ namespace Condominio.Repository.Repositories
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
-            
+
             var key = new SymmetricSecurityKey(Encoding.ASCII
                 .GetBytes(_configuration.GetSection("AppSettings:Token").Value));
 
