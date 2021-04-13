@@ -13,6 +13,7 @@ using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Condominio.Repository.Repositories
@@ -23,14 +24,16 @@ namespace Condominio.Repository.Repositories
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger; 
 
         public AuthRepository(IConfiguration configuration, UserManager<User> userManager,
-            SignInManager<User> signInManager, IMapper mapper)
+            SignInManager<User> signInManager, IMapper mapper, ILoggerManager logger)
         {
             _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<UserResponse> Registro(UserRequest usuario)
@@ -59,7 +62,14 @@ namespace Condominio.Repository.Repositories
         {
             try
             {
+                _logger.LogInfo("Verificando usuário");
                 var user = await _userManager.FindByNameAsync(userLogin.UserName);
+
+                if (user == null)
+                {
+                    _logger.LogError("Usuário não existe");
+                    throw new ArgumentException("Usuário não existe");
+                }
 
                 var result = await _signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);
 
