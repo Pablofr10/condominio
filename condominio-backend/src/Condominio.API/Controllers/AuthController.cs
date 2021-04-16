@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.Configuration;
-using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Condominio.API.Controllers

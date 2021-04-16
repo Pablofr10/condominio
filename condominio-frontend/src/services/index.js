@@ -14,7 +14,7 @@ const api = {
     delete (endpoint) {
         return axiosInstance.delete(endpoint);
     },
-    get (endpoint, body) {
+    put (endpoint, body) {
         return axiosInstance.put(endpoint, body);
     }
 }

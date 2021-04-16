@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import { Tables } from "../components";
+import Tables from "../components/Tables.vue";
 </script>
 
 <style scoped>
