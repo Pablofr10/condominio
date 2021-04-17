@@ -50,5 +50,19 @@ namespace Condominio.API.Controllers
 
             return Ok(user);
         }
+        
+        [HttpPost("RecuperarSenha")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RecuperarLogin(string email)
+        {
+            UserLoginResponse user = await GetService<IAuthService>().EsqueceuLogin(enail);
+            
+            if (user == null)
+            {
+                return BadRequest("Erro ao relizar login");
+            }
+
+            return Ok(user);
+        }
     }
 }

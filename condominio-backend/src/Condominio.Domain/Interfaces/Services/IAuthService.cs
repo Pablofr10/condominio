@@ -8,5 +8,6 @@ namespace Condominio.Domain.Interfaces.Services
     {
         Task<UserResponse> Registro(UserRequest usuario);
         Task<UserLoginResponse> Login(UserLoginRequest login);
+        Task<UserLoginResponse> EsqueceuLogin(string email);
     }
 }

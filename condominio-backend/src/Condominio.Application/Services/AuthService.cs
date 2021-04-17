@@ -88,7 +88,6 @@ namespace Condominio.Application.Services
             _logger.LogError("Erro ao realizar o login");
             throw new LoginException("Login não autorizado");
         }
-
         private async Task<string> GenerateJwToken(User user)
         {
             var claims = new List<Claim>
@@ -121,6 +120,10 @@ namespace Condominio.Application.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+        public async Task<UserLoginResponse> EsqueceuLogin(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }
