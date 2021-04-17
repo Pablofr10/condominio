@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using Condominio.Domain.Interfaces.Repository;
+using Condominio.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace Condominio.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Cadastrar(UserRequest user)
         {
-            var usuario = await GetService<IAuthRepository>().Registro(user);
+            var usuario = await GetService<IAuthService>().Registro(user);
             
             if (usuario != null)
             {
@@ -40,7 +41,7 @@ namespace Condominio.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginRequest userLogin)
         {
-            UserLoginResponse user = await GetService<IAuthRepository>().Login(userLogin);
+            UserLoginResponse user = await GetService<IAuthService>().Login(userLogin);
             
             if (user == null)
             {

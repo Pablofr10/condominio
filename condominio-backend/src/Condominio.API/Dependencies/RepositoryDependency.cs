@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Condominio.API.Dependencies
 {
-    public class RepositoryDependence
+    public static class RepositoryDependence
     {
         public static void Register(IServiceCollection serviceProvider)
         {
@@ -17,10 +17,9 @@ namespace Condominio.API.Dependencies
         private static void RepositoryDependecy(IServiceCollection serviceProvider)
         {
             serviceProvider.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            serviceProvider.AddScoped<IAuthRepository, AuthRepository>();
+            serviceProvider.AddScoped<IAuthService, AuthService>();
             serviceProvider.AddSingleton<ILoggerManager, LoggerManager>();
-            serviceProvider.AddSingleton<IUsuarioService, UsuarioService>();
-            serviceProvider.AddSingleton<IAuthRepository, AuthRepository>();
+            serviceProvider.AddScoped<IUsuarioService, UsuarioService>();
         }
     }
 }

@@ -2,9 +2,9 @@
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 
-namespace Condominio.Domain.Interfaces.Repository
+namespace Condominio.Domain.Interfaces.Services
 {
-    public interface IAuthRepository
+    public interface IAuthService
     {
         Task<UserResponse> Registro(UserRequest usuario);
         Task<UserLoginResponse> Login(UserLoginRequest login);

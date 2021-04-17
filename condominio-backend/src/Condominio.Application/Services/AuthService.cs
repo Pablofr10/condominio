@@ -10,13 +10,15 @@ using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 using Condominio.Domain.Interfaces.Repository;
+using Condominio.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-namespace Condominio.Infrastructure.Repositories
+
+namespace Condominio.Application.Services
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthService : IAuthService
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
@@ -24,7 +26,7 @@ namespace Condominio.Infrastructure.Repositories
         private readonly IMapper _mapper;
         private readonly ILoggerManager _logger;
 
-        public AuthRepository(IConfiguration configuration, UserManager<User> userManager,
+        public AuthService(IConfiguration configuration, UserManager<User> userManager,
             SignInManager<User> signInManager, IMapper mapper, ILoggerManager logger)
         {
             _configuration = configuration;
