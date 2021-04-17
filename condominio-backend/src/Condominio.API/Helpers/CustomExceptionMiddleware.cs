@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Condominio.Application.Exceptions;
 using Condominio.Domain.Dtos.Response;
@@ -24,10 +25,20 @@ namespace Condominio.API.Helpers
             {
                 await _next(httpContext);
             }
-            catch (LoginException ex)
+            catch (Exception ex)
             {
-                _logger.LogError($"Erro ao realizar login: {ex}");
-                await HandleLoginExeptionAsync(httpContext, ex);
+                if (ex is LoginException)
+                {
+                    _logger.LogError($"Erro ao realizar login: {ex}");
+                    await HandleLoginExeptionAsync(httpContext, ex);
+                }
+
+                if (ex is PermissaoException)
+                {
+                    _logger.LogError($"Erro ao realizar login: {ex}");
+                    await HandlePermissaoExeptionAsync(httpContext, ex);
+                }
+                
             }
         }
 
@@ -43,7 +54,19 @@ namespace Condominio.API.Helpers
             }.ToString());
         }
         
-        private Task HandleLoginExeptionAsync(HttpContext context, LoginException loginException)
+        private Task HandleLoginExeptionAsync(HttpContext context, Exception loginException)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+
+            return context.Response.WriteAsync(new ErrosResponse
+            {
+                StatusCode = context.Response.StatusCode,
+                Message = loginException.Message
+            }.ToString());
+        }
+        
+        private Task HandlePermissaoExeptionAsync(HttpContext context, Exception loginException)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;

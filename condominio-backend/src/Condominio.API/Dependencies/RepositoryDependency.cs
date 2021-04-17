@@ -20,6 +20,7 @@ namespace Condominio.API.Dependencies
             serviceProvider.AddScoped<IAuthService, AuthService>();
             serviceProvider.AddSingleton<ILoggerManager, LoggerManager>();
             serviceProvider.AddScoped<IUsuarioService, UsuarioService>();
+            serviceProvider.AddScoped<IPermissaoService, PermissaoService>();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Condominio.Domain.Dtos;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
@@ -14,7 +12,7 @@ namespace Condominio.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Usuario, UsuarioResponse>().ForMember(
-                dest => dest.UrlImagem, opt => 
+                dest => dest.UrlImagem, opt =>
                     opt.MapFrom(src => src.Imagem.Url));
             CreateMap<Contato, ContatoDto>().ReverseMap();
             CreateMap<UsuarioRequest, Usuario>().ReverseMap();
@@ -24,6 +22,9 @@ namespace Condominio.API.Helpers
             CreateMap<User, UserResponse>().ReverseMap();
             CreateMap<User, UserLoginResponse>()
                 .ForMember(dest => dest.Token, opt => opt.Ignore());
+            CreateMap<Role, PermissoesResponse>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.NormalizedName));
+            CreateMap<PermissoesRequest, Role>().ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Nome));
         }
     }
 }
