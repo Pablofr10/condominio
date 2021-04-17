@@ -11,8 +11,9 @@ namespace Condominio.Domain.Interfaces.Services
     public interface IPermissaoService
     {
         IEnumerable<PermissoesResponse> GetPermissoes();
-        Task<IEnumerable<UserRoleDto>> GetPermissao(int id);
+        Task<IEnumerable<UserRoleResponse>> GetPermissao(int id);
         Task<bool> CriarPermissao(PermissoesRequest permissao);
         Task<bool> EditarPermissoes(PermissoesEditarRequest permissao);
+        Task<bool> EditarPermissoesUsuarios(List<UserRoleDto> rolesUsers, string roleId);
     }
 }

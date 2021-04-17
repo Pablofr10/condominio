@@ -80,5 +80,20 @@ namespace Condominio.API.Controllers
 
             return BadRequest("Erro ao editar a permissão");
         }
+        
+        [Route("EditarPermissoes")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> EditarPermissoesUsuarios(List<UserRoleDto> role, string roleId)
+        {
+            var isPermissaoEditada = await GetService<IPermissaoService>().EditarPermissoesUsuarios(role, roleId);
+
+            if (isPermissaoEditada)
+            {
+                return Ok("Permissões editada com sucesso");
+            }
+
+            return BadRequest("Erro ao editar a permissão");
+        }
     }
 }
