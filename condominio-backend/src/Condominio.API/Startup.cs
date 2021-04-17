@@ -3,7 +3,7 @@ using System.Data.Common;
 using System.IO;
 using Condominio.API.Dependencies;
 using Condominio.API.Helpers;
-using Condominio.Application.Repository;
+using Condominio.Domain.Interfaces.Repository;
 using Condominio.Infrastructure.Commom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

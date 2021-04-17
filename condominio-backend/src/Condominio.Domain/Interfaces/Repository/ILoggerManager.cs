@@ -1,4 +1,4 @@
-﻿namespace Condominio.Application.Repository
+﻿namespace Condominio.Domain.Interfaces.Repository
 {
     public interface ILoggerManager
     {

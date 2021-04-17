@@ -1,5 +1,5 @@
 <template>
-  <span class="text-red-500 text-xs">{{mensagemErro}}</span>
+  <span class="text-red-500 text-xs">{{ mensagemErro }}</span>
   <form class="mt-4" @submit.prevent="login()">
     <label class="block">
       <span class="text-gray-700 text-sm">Usuário</span>
@@ -30,9 +30,12 @@
       </div>
 
       <div>
-        <a class="block text-sm fontme text-indigo-700 hover:underline" href="#"
-          >Forgot your password?</a
+        <a
+          class="block text-sm fontme text-indigo-700 hover:underline"
+          href="#"
         >
+          Forgot your password?
+        </a>
       </div>
     </div>
 
@@ -48,7 +51,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from "vue";
 import services from "../services";
 
 export default {
@@ -58,14 +61,14 @@ export default {
   },
 
   setup(props) {
-
-      const mensagemErro = ref('');
-
-
+    const mensagemErro = ref("");
 
     async function login() {
       try {
-        const data = await services.post("auth/login", {userName: props.usuario, password: props.senha});
+        const data = await services.post("auth/login", {
+          userName: props.usuario,
+          password: props.senha,
+        });
         console.log(data);
       } catch (error) {
         this.mensagemErro = error.response.data.Message;
@@ -75,7 +78,7 @@ export default {
 
     return {
       login,
-      mensagemErro
+      mensagemErro,
     };
   },
 };

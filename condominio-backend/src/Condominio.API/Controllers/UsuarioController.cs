@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Condominio.Application.Repository;
 using Condominio.Domain.Dtos.Request;
+using Condominio.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ namespace Condominio.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var usuarios = await GetService<IUsuarioRepository>().Get();
+            var usuarios = await GetService<IUsuarioService>().BuscaUsuarios();
 
             if (usuarios != null)
             {
@@ -33,7 +33,7 @@ namespace Condominio.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var usuario = await GetService<IUsuarioRepository>().Get(id);
+            var usuario = await GetService<IUsuarioService>().BuscaUsuarioPorId(id);
 
             if (usuario != null)
             {
@@ -46,7 +46,7 @@ namespace Condominio.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(UsuarioRequest usuario)
         {
-            var isUsuarioCriado = await GetService<IUsuarioRepository>().PostUsuario(usuario);
+            var isUsuarioCriado = await GetService<IUsuarioService>().AdicionaUsuario(usuario);
             
             if (isUsuarioCriado)
             {
@@ -59,7 +59,7 @@ namespace Condominio.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Post(int id, UsuarioRequest usuario)
         {
-            var isUsuarioCriado = await GetService<IUsuarioRepository>().PutUsuario(id, usuario);
+            var isUsuarioCriado = await GetService<IUsuarioService>().AtualizaUsuario(id, usuario);
             
             if (isUsuarioCriado)
             {

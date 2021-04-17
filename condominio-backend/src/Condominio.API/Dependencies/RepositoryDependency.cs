@@ -1,12 +1,13 @@
-﻿using System;
-using Condominio.API.Helpers;
-using Condominio.Application.Repository;
+﻿using Condominio.API.Helpers;
+using Condominio.Application.Services;
+using Condominio.Domain.Interfaces.Repository;
+using Condominio.Domain.Interfaces.Services;
 using Condominio.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Condominio.API.Dependencies
 {
-    public class RepositoryDependence
+    public static class RepositoryDependence
     {
         public static void Register(IServiceCollection serviceProvider)
         {
@@ -16,8 +17,10 @@ namespace Condominio.API.Dependencies
         private static void RepositoryDependecy(IServiceCollection serviceProvider)
         {
             serviceProvider.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            serviceProvider.AddScoped<IAuthRepository, AuthRepository>();
+            serviceProvider.AddScoped<IAuthService, AuthService>();
             serviceProvider.AddSingleton<ILoggerManager, LoggerManager>();
+            serviceProvider.AddScoped<IUsuarioService, UsuarioService>();
+            serviceProvider.AddScoped<IPermissaoService, PermissaoService>();
         }
     }
 }
