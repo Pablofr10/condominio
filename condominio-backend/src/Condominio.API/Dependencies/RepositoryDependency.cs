@@ -1,7 +1,7 @@
 ﻿using System;
 using Condominio.API.Helpers;
-using Condominio.Interface.Repository;
-using Condominio.Repository.Repositories;
+using Condominio.Application.Repository;
+using Condominio.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Condominio.API.Dependencies

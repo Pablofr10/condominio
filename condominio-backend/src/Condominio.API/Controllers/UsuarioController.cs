@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Condominio.Application.Repository;
 using Condominio.Domain.Dtos.Request;
-using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

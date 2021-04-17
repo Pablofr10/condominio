@@ -1,4 +1,4 @@
-﻿using Condominio.Interface.Repository;
+﻿using Condominio.Application.Repository;
 using NLog;
 
 namespace Condominio.API.Helpers

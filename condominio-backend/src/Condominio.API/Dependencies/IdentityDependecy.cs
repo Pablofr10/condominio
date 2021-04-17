@@ -2,7 +2,7 @@
 
 using System.Text;
 using Condominio.Domain.Dtos.Identity;
-using Condominio.Repository.Commom;
+using Condominio.Infrastructure.Commom;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

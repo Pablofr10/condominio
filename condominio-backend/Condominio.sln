@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{30EE517F-E19
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.Domain", "src\Condominio.Domain\Condominio.Domain.csproj", "{44DB76E2-3817-4800-AC93-4AB3ED0BB5C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.Interface", "src\Condominio.Interface\Condominio.Interface.csproj", "{2F2000F1-74BA-4EC1-A0FB-3A579A27398A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.Application", "src\Condominio.Application\Condominio.Application.csproj", "{2F2000F1-74BA-4EC1-A0FB-3A579A27398A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.Repository", "src\Condominio.Repository\Condominio.Repository.csproj", "{CFF04BA8-A164-450A-886E-93A0EEDED663}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.Infrastructure", "src\Condominio.Infrastructure\Condominio.Infrastructure.csproj", "{CFF04BA8-A164-450A-886E-93A0EEDED663}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Condominio.API", "src\Condominio.API\Condominio.API.csproj", "{B6C872A9-518D-41A9-9537-CCA6B8030C67}"
 EndProject

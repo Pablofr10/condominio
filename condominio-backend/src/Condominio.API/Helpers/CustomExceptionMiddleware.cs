@@ -1,9 +1,8 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using Condominio.Application.Exceptions;
+using Condominio.Application.Repository;
 using Condominio.Domain.Dtos.Response;
-using Condominio.Domain.Exceptions;
-using Condominio.Interface.Repository;
 using Microsoft.AspNetCore.Http;
 
 namespace Condominio.API.Helpers

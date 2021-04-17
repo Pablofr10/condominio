@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Condominio.Repository\Condominio.Repository.csproj" />
+      <ProjectReference Include="..\Condominio.Infrastructure\Condominio.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
