@@ -9,7 +9,7 @@ using Condominio.Application.Exceptions;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
-using Condominio.Application.Repository;
+using Condominio.Domain.Interfaces.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

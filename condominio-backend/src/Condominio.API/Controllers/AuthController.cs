@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Condominio.Application.Repository;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
+using Condominio.Domain.Interfaces.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,7 +2,7 @@
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
 
-namespace Condominio.Application.Repository
+namespace Condominio.Domain.Interfaces.Repository
 {
     public interface IAuthRepository
     {

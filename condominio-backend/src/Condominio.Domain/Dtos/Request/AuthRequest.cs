@@ -1,4 +1,4 @@
-﻿namespace Condominio.Domain.Dtos.UsuarioRequest
+﻿namespace Condominio.Domain.Dtos.Request
 {
     public class AuthRequest
     {

@@ -6,9 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Enums" />
-    <Folder Include="Interfaces" />
     <Folder Include="Enums\" />
-    <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
