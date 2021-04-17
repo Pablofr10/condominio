@@ -32,7 +32,7 @@ namespace Condominio.Application.Services
             return permicoes;
         }
         
-        public async Task<IEnumerable<UserRoleDto>> GetPermissao(int id)
+        public async Task<IEnumerable<UserRoleResponse>> GetPermissao(int id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
             
@@ -41,17 +41,18 @@ namespace Condominio.Application.Services
                 throw new PermissaoException("A permissão não existe na base de dados.");
             }
 
-            List<UserRoleDto> userRole = new List<UserRoleDto>();
+            List<UserRoleResponse> userRole = new List<UserRoleResponse>();
 
             var userRoles = await _userManager.GetUsersInRoleAsync(role.Name);
 
             foreach (var user in userRoles)
             {
-                var userRoleDto = new UserRoleDto
+                var userRoleDto = new UserRoleResponse
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
-                    RoleId = role.Id
+                    RoleId = role.Id,
+                    NomePermissao = role.Name,
                 };
                 
                 userRole.Add(userRoleDto);
@@ -87,6 +88,31 @@ namespace Condominio.Application.Services
             }
 
             return false;
+        }
+
+        public async Task<bool> EditarPermissoesUsuarios(List<UserRoleDto> rolesUsers, string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                throw new PermissaoException("A permissão não existe na base de dados.");
+            }
+
+            for (int i = 0; i < rolesUsers.Count; i++)
+            {
+                var user = await _userManager.FindByIdAsync(rolesUsers[i].UserId);
+
+                if (rolesUsers[i].Ativo && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                {
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                } else if (!rolesUsers[i].Ativo && await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+                }
+            }
+
+            return true;
         }
     }
 }
