@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Condominio.Domain.Dtos;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
@@ -26,13 +27,27 @@ namespace Condominio.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult GetPermicoes()
+        public IActionResult GetPermissoes()
         {
             var permicoes = GetService<IPermissaoService>().GetPermissoes();
 
             if (permicoes.Any())
             {
                 return Ok(permicoes);
+            }
+
+            return NoContent();
+        }
+        
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPermissao(int id)
+        {
+            var permissao = await GetService<IPermissaoService>().GetPermissao(id);
+
+            if (permissao.Any())
+            {
+                return Ok(permissao);
             }
 
             return NoContent();

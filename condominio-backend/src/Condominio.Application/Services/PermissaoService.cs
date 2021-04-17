@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Condominio.Application.Exceptions;
+using Condominio.Domain.Dtos;
 using Condominio.Domain.Dtos.Identity;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
@@ -29,6 +30,34 @@ namespace Condominio.Application.Services
             var permicoes = _mapper.Map<List<PermissoesResponse>>(roles);
 
             return permicoes;
+        }
+        
+        public async Task<IEnumerable<UserRoleDto>> GetPermissao(int id)
+        {
+            var role = await _roleManager.FindByIdAsync(id.ToString());
+            
+            if (role == null)
+            {
+                throw new PermissaoException("A permissão não existe na base de dados.");
+            }
+
+            List<UserRoleDto> userRole = new List<UserRoleDto>();
+
+            var userRoles = await _userManager.GetUsersInRoleAsync(role.Name);
+
+            foreach (var user in userRoles)
+            {
+                var userRoleDto = new UserRoleDto
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    RoleId = role.Id
+                };
+                
+                userRole.Add(userRoleDto);
+            }
+            
+            return userRole;
         }
 
         public async Task<bool> CriarPermissao(PermissoesRequest role)

@@ -4,14 +4,16 @@ using Condominio.Infrastructure.Commom;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Condominio.Infrastructure.Migrations
 {
     [DbContext(typeof(CondominioDbContext))]
-    partial class CondominioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210417174619_modificandoRoles")]
+    partial class modificandoRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
