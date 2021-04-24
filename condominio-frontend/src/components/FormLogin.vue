@@ -65,14 +65,13 @@ export default {
 
     async function login() {
       try {
-        const data = await services.post("auth/login", {
+        const { data } = await services.post("auth/login", {
           userName: props.usuario,
           password: props.senha,
         });
-        console.log(data);
+        window.localStorage.setItem("token", data.token);
       } catch (error) {
-        this.mensagemErro = error.response.data.Message;
-        console.log(error.response);
+        mensagemErro.value = error.response.data.Message;
       }
     }
 

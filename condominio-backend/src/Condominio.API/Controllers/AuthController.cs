@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Condominio.Domain.Dtos.Request;
 using Condominio.Domain.Dtos.Response;
-using Condominio.Domain.Interfaces.Repository;
 using Condominio.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +54,7 @@ namespace Condominio.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RecuperarLogin(string email)
         {
-            UserLoginResponse user = await GetService<IAuthService>().EsqueceuLogin(enail);
+            UserLoginResponse user = await GetService<IAuthService>().EsqueceuLogin(email);
             
             if (user == null)
             {

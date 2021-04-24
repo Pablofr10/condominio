@@ -31,11 +31,22 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import SideBar from "./SideBar.vue";
-
 import { ref } from "vue";
-const open = ref(false);
+
+export default {
+  components: {
+    SideBar,
+  },
+  setup() {
+    const open = ref(false);
+
+    return {
+      open,
+    };
+  },
+};
 </script>
 
 <style></style>
