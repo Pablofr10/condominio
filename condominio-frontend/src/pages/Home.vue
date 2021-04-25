@@ -1,10 +1,15 @@
 <template>
-<Tables />
-
+  <Tables />
 </template>
 
-<script setup>
+<script>
 import Tables from "../components/Tables.vue";
+
+export default {
+  components: {
+    Tables,
+  },
+};
 </script>
 
 <style scoped>
