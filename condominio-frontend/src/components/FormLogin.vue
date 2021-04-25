@@ -53,15 +53,15 @@
 <script>
 import { ref } from "vue";
 import services from "../services";
+import { useRouter } from "vue-router";
 
 export default {
-  props: {
-    usuario: String,
-    senha: String,
-  },
+  props: ["usuario", "senha"],
 
   setup(props) {
     const mensagemErro = ref("");
+
+    const router = useRouter();
 
     async function login() {
       try {
@@ -69,9 +69,12 @@ export default {
           userName: props.usuario,
           password: props.senha,
         });
-        window.localStorage.setItem("token", data.token);
+        console.log(data);
+        const { token, userName } = data;
+        window.localStorage.setItem("token", token);
+        router.push("/home");
       } catch (error) {
-        mensagemErro.value = error.response.data.Message;
+        console.log(error);
       }
     }
 
