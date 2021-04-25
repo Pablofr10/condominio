@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import FormLogin from "../components/FormLogin.vue";
+import FormLogin from "../components/FormCadastrar.vue";
 
 export default {
   components: {
