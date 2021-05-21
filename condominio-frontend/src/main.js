@@ -1,22 +1,21 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import 'virtual:windi.css'
-import router from './routers'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import icones from "./styles/fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import DefaultLayout from "./components/layouts/DefaultLayout.vue";
 
-import DefaultLayout from './layouts/DefaultLayout.vue'
-import EmptyLayout from './layouts/EmptyLayout.vue'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import icons from './fontawesome'
+library.add({ ...icones });
 
-library.add({ ...icons })
+const app = createApp(App);
 
-const app = createApp(App)
+app.component("default-layout", DefaultLayout);
+app.component("fa", FontAwesomeIcon);
 
-app.component('default-layout', DefaultLayout)
-app.component('empty-layout', EmptyLayout)
-app.component('v-icon', FontAwesomeIcon)
+app.use(store);
+app.use(router);
 
-app.use(router)
-app.mount('#app')
+app.mount("#app");
