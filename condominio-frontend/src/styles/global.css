@@ -1,1 +1,10 @@
-@import './reset.css'
+@import './reset.css';
+
+.btn {
+    padding: 5;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+}
